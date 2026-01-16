@@ -1,8 +1,11 @@
+import re
 import torch
 import gradio as gr
 import pandas as pd
 import matplotlib.pyplot as plt
 from transformers import pipeline
+from youtube_transcript_api import YouTubeTranscriptApi
+from youtube_transcript_api.formatters import TextFormatter
 
 # ---------------------------------------------------------
 # DEVICE SETUP (AUTO GPU / CPU)
@@ -125,13 +128,45 @@ def analyze_single_text(text):
     return f"{emoji} **{label}** (Confidence: {score:.1%})"
 
 # ---------------------------------------------------------
+# YOUTUBE TRANSCRIPT SUMMARIZER FUNCTIONS
+# ---------------------------------------------------------
+def extract_video_id(url):
+    regex = r"(?:youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|\S*?[?&]v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})"
+    match = re.search(regex, url)
+    if match:
+        return match.group(1)
+    return None
+
+def summarize_youtube_video(video_url, summary_size):
+    if not video_url or not video_url.strip():
+        return "⚠️ Please enter a YouTube URL.", ""
+    
+    video_id = extract_video_id(video_url)
+    if not video_id:
+        return "❌ Invalid YouTube URL. Could not extract video ID.", ""
+
+    try:
+        transcript = YouTubeTranscriptApi.get_transcript(video_id)
+        formatter = TextFormatter()
+        text_transcript = formatter.format_transcript(transcript)
+        
+        if len(text_transcript) < 50:
+            return "⚠️ Transcript too short to summarize.", text_transcript
+        
+        summary = summarize_text(text_transcript, summary_size)
+        return summary, text_transcript
+    
+    except Exception as e:
+        return f"❌ Error: {str(e)}", ""
+
+# ---------------------------------------------------------
 # UNIFIED UI WITH TABS
 # ---------------------------------------------------------
 with gr.Blocks(theme=gr.themes.Soft()) as demo:
     gr.Markdown(
         """
-        # � AI Text Toolkit
-        **Summarize • Analyze Sentiment • All in One**
+        # 🚀 AI Text Toolkit
+        **Summarize • Analyze Sentiment • YouTube Transcripts**
         """
     )
     
@@ -152,7 +187,7 @@ with gr.Blocks(theme=gr.themes.Soft()) as demo:
                         maximum=300,
                         value=150,
                         step=10,
-                        label="� Summary Length (words)"
+                        label="📏 Summary Length (words)"
                     )
                     sum_btn = gr.Button("✨ Summarize", variant="primary")
                 
@@ -161,8 +196,36 @@ with gr.Blocks(theme=gr.themes.Soft()) as demo:
             
             sum_btn.click(fn=summarize_text, inputs=[sum_input, sum_slider], outputs=sum_output)
         
-        # ============ TAB 2: SENTIMENT ANALYZER ============
-        with gr.Tab("� Sentiment Analyzer"):
+        # ============ TAB 2: YOUTUBE SUMMARIZER ============
+        with gr.Tab("🎬 YouTube Summarizer"):
+            gr.Markdown("### Summarize any YouTube video from its transcript")
+            
+            with gr.Row():
+                with gr.Column(scale=2):
+                    yt_url = gr.Textbox(
+                        label="🔗 YouTube URL",
+                        lines=1,
+                        placeholder="Paste YouTube video URL (e.g., https://youtube.com/watch?v=...)"
+                    )
+                    yt_slider = gr.Slider(
+                        minimum=80,
+                        maximum=300,
+                        value=150,
+                        step=10,
+                        label="📏 Summary Length (words)"
+                    )
+                    yt_btn = gr.Button("🎬 Summarize Video", variant="primary")
+                
+                with gr.Column(scale=1):
+                    yt_summary = gr.Textbox(label="📌 Video Summary", lines=6)
+            
+            with gr.Accordion("📜 Full Transcript", open=False):
+                yt_transcript = gr.Textbox(label="Raw Transcript", lines=10)
+            
+            yt_btn.click(fn=summarize_youtube_video, inputs=[yt_url, yt_slider], outputs=[yt_summary, yt_transcript])
+        
+        # ============ TAB 3: SENTIMENT ANALYZER ============
+        with gr.Tab("📊 Sentiment Analyzer"):
             gr.Markdown("### Analyze sentiment from text or Excel files")
             
             with gr.Tabs():
