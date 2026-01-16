@@ -5,7 +5,6 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from transformers import pipeline
 from youtube_transcript_api import YouTubeTranscriptApi
-from youtube_transcript_api.formatters import TextFormatter
 
 # ---------------------------------------------------------
 # DEVICE SETUP (AUTO GPU / CPU)
@@ -146,9 +145,12 @@ def summarize_youtube_video(video_url, summary_size):
         return "❌ Invalid YouTube URL. Could not extract video ID.", ""
 
     try:
-        transcript = YouTubeTranscriptApi.get_transcript(video_id)
-        formatter = TextFormatter()
-        text_transcript = formatter.format_transcript(transcript)
+        # New API: use fetch() method
+        transcript_list = YouTubeTranscriptApi.list_transcripts(video_id)
+        transcript = transcript_list.find_transcript(['en']).fetch()
+        
+        # Format transcript to plain text
+        text_transcript = " ".join([entry['text'] for entry in transcript])
         
         if len(text_transcript) < 50:
             return "⚠️ Transcript too short to summarize.", text_transcript
