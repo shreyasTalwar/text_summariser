@@ -79,7 +79,7 @@ def summarize_text(input_text, summary_size):
 with gr.Blocks(theme=gr.themes.Soft()) as demo:
     gr.Markdown(
         """
-        # 🧠 GenAILearniverse – Advanced Text Summarizer
+        # 📝 AI Text Summarizer Pro
         **Fast • Accurate • Handles Long Documents**
         """
     )
