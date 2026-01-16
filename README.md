@@ -1,7 +1,8 @@
 ---
-title: TextSummarizer
-colorFrom: red
-colorTo: yellow
+title: AI Text Toolkit Pro
+emoji: 🚀
+colorFrom: indigo
+colorTo: purple
 sdk: gradio
 sdk_version: 4.29.0
 app_file: app.py
@@ -9,78 +10,106 @@ pinned: false
 license: apache-2.0
 ---
 
-# Text Summarizer
+# 🚀 AI Text Toolkit Pro
 
-A web application that automatically summarizes long text using state-of-the-art deep learning models. Built with Hugging Face Transformers and Gradio for an intuitive user interface.
+![AI Text Toolkit Pro Banner](https://raw.githubusercontent.com/shreyasTalwar/text_summariser/main/assets/banner.png)
 
-## Features
+> **Empowering text analysis with State-of-the-Art AI. Summarize, Analyze, and Transcribe with ease.**
 
-- **Automatic Text Summarization** - Condenses long text into concise summaries
-- **Fast & Efficient** - Uses DistilBART model optimized for performance
-- **User-Friendly Interface** - Simple web-based UI powered by Gradio
-- **GPU Optimized** - Uses bfloat16 precision for reduced memory usage
+AI Text Toolkit Pro is a comprehensive web application designed to handle complex text processing tasks using advanced deep learning models. Whether you're a researcher, student, or professional, this toolkit provides the tools you need to extract insights from text and video content instantly.
 
-## Installation
+---
+
+## ✨ Key Features
+
+### 📝 Text Summarization
+- **Smart Summaries**: Condense long articles, research papers, or reports into concise summaries.
+- **Adjustable Length**: Control the summary size (50-500 words) to fit your needs.
+- **Chunking Engine**: Automatically handles large documents by splitting them into manageable segments for processing.
+
+### 🎬 YouTube Summarizer
+- **Instant Transcripts**: Fetches transcripts directly from YouTube URLs.
+- **Video Summaries**: Summarizes the video content, saving you hours of watch time.
+- **Full Transparency**: View the raw transcript alongside the AI-generated summary.
+
+### 📊 Sentiment Analysis
+- **Deep Insight**: Understand the emotional tone (Positive/Negative) of any text.
+- **Single Analysis**: Check individual reviews or comments.
+- **Bulk Processing**: Upload **Excel (.xlsx)** files for mass sentiment analysis with confidence scores.
+- **Visual Analytics**: Automatically generates distribution charts for bulk data.
+
+---
+
+## 🛠️ Tech Stack
+
+- **Core**: Python 3.8+
+- **Deep Learning**: Hugging Face Transformers (`BART`, `DistilBERT`)
+- **Backend**: PyTorch
+- **UI Framework**: Gradio (Soft Theme with Custom CSS)
+- **Data Handling**: Pandas & OpenPyxl
+- **Visualization**: Matplotlib
+
+---
+
+## 🚀 Getting Started
 
 ### Prerequisites
-- Python 3.8+
-- pip
+- Python 3.8 or higher
+- NVIDIA GPU (Optional for acceleration)
 
-### Setup
+### Installation
 
-1. Clone the repository:
-```bash
-git clone <repository-url>
-cd TextSummarizer
-```
+1. **Clone the Repo**
+   ```bash
+   git clone https://github.com/shreyasTalwar/text_summariser.git
+   cd text_summariser
+   ```
 
-2. Install dependencies:
-```bash
-pip install -r requirements.txt
-```
+2. **Install Dependencies**
+   ```bash
+   pip install -r requirements.txt
+   ```
 
-## Usage
+3. **Launch the App**
+   ```bash
+   python app.py
+   ```
 
-### Run Locally
+Navigate to `http://localhost:7860` in your browser.
 
-```bash
-python app.py
-```
+---
 
-The application will start a local web server. Open your browser and navigate to the URL displayed (typically `http://localhost:7860`).
+## 🔧 Optimization
 
-### How to Use
+The application automatically detects your hardware configurations:
+- **🚀 GPU Accelerated**: Uses CUDA for lightning-fast inference if available.
+- **💻 CPU Mode**: Optimized for standard hardware performance.
 
-1. Enter or paste the text you want to summarize in the input box
-2. Click the "Submit" button
-3. The summarized text will appear in the output box
+---
 
-## Model Details
+## 📋 Sample Excel Format for Bulk Analysis
 
-- **Model**: `sshleifer/distilbart-cnn-12-6`
-- **Type**: DistilBART (distilled BART)
-- **Task**: Abstractive Text Summarization
-- **Input**: Plain text (recommended: 50-1024 tokens)
-- **Output**: Concise summary capturing key information
+To use the bulk analysis feature, ensure your Excel file has a column named **"Reviews"**.
 
-## Requirements
+| Reviews |
+| :--- |
+| This tool is absolutely incredible! |
+| I found the summary a bit too short for my liking. |
+| Speed is impressive even on CPU. |
 
-- `transformers` - Hugging Face NLP library
-- `torch` - PyTorch deep learning framework
-- `gradio` - Web UI framework
+---
 
-## Limitations
+## 📄 License
 
-- Maximum recommended input length: ~1024 tokens (approximately 4000 characters)
-- Works best with English text
-- Requires internet connection for first model download
+Distributed under the **Apache 2.0 License**. See `LICENSE` for more information.
 
-## License
+---
 
-Apache 2.0
+## 👋 Contact
 
-## References
+**Shreyas V Talwar**  
+GitHub: [@shreyasTalwar](https://github.com/shreyasTalwar)
 
-- [Hugging Face Transformers](https://huggingface.co/transformers/)
-- [Gradio Documentation](https://www.gradio.app/)
-- [DistilBART Model Card](https://huggingface.co/sshleifer/distilbart-cnn-12-6)
+---
+
+*Built with ❤️ using Hugging Face & Gradio*
