@@ -114,4 +114,4 @@ with gr.Blocks(theme=gr.themes.Soft()) as demo:
         outputs=output_text
     )
 
-demo.launch()
+demo.launch(share=True)
